@@ -1,1 +1,18 @@
-THIS README
+# Healthcare Management System - Complete Documentation
+
+## Project Overview
+
+A full-stack healthcare management system built with Flask (backend) and Tailwind CSS (frontend). This application allows healthcare providers to manage patients, schedule appointments, and maintain medical records efficiently.
+
+### Features
+- 👥 Patient Registration & Management
+- 📅 Appointment Scheduling System
+- 📋 Medical Records Management
+- 📊 Dashboard with Statistics
+- 🔄 RESTful API Architecture
+- 📱 Responsive Tailwind CSS UI
+- 🚀 Real-time Data Updates
+
+---
+
+
