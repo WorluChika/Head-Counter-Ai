@@ -1,0 +1,235 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">🏥 Healthcare System</h1>
+            <div class="space-x-4">
+                <button onclick="showSection('dashboard')" class="hover:bg-blue-700 px-3 py-2 rounded">Dashboard</button>
+                <button onclick="showSection('patients')" class="hover:bg-blue-700 px-3 py-2 rounded">Patients</button>
+                <button onclick="showSection('appointments')" class="hover:bg-blue-700 px-3 py-2 rounded">Appointments</button>
+                <button onclick="showSection('records')" class="hover:bg-blue-700 px-3 py-2 rounded">Records</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Dashboard</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                    <p class="text-gray-600">Total Patients</p>
+                    <p class="text-3xl font-bold text-blue-600" id="stat-patients">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                    <p class="text-gray-600">Total Appointments</p>
+                    <p class="text-3xl font-bold text-green-600" id="stat-appointments">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                    <p class="text-gray-600">Medical Records</p>
+                    <p class="text-3xl font-bold text-purple-600" id="stat-records">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                    <p class="text-gray-600">Upcoming Appointments</p>
+                    <p class="text-3xl font-bold text-orange-600" id="stat-upcoming">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patients Section -->
+        <div id="patients" class="section hidden">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Patient Management</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Register Patient</h3>
+                    <form id="patientForm" class="space-y-4">
+                        <input type="text" placeholder="Full Name" id="patientName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="date" id="patientDOB" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="email" placeholder="Email" id="patientEmail" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="tel" placeholder="Phone" id="patientPhone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Register Patient</button>
+                    </form>
+                </div>
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Patient List</h3>
+                    <div id="patientsList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Section -->
+        <div id="appointments" class="section hidden">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Appointment Management</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Schedule Appointment</h3>
+                    <form id="appointmentForm" class="space-y-4">
+                        <input type="text" placeholder="Patient ID" id="aptPatientId" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" placeholder="Doctor Name" id="aptDoctor" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="datetime-local" id="aptDateTime" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" placeholder="Reason for Visit" id="aptReason" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">Schedule</button>
+                    </form>
+                </div>
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Appointments List</h3>
+                    <div id="appointmentsList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Records Section -->
+        <div id="records" class="section hidden">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Medical Records</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Add Medical Record</h3>
+                    <form id="recordForm" class="space-y-4">
+                        <input type="text" placeholder="Patient ID" id="recordPatientId" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <textarea placeholder="Diagnosis" id="recordDiagnosis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                        <textarea placeholder="Treatment" id="recordTreatment" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                        <input type="date" id="recordDate" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">Add Record</button>
+                    </form>
+                </div>
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Records List</h3>
+                    <div id="recordsList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+            if (sectionId === 'dashboard') loadDashboard();
+            if (sectionId === 'patients') loadPatients();
+            if (sectionId === 'appointments') loadAppointments();
+            if (sectionId === 'records') loadRecords();
+        }
+
+        async function loadDashboard() {
+            const res = await fetch(`${API_BASE}/dashboard-stats`);
+            const data = await res.json();
+            document.getElementById('stat-patients').textContent = data.total_patients;
+            document.getElementById('stat-appointments').textContent = data.total_appointments;
+            document.getElementById('stat-records').textContent = data.total_records;
+            document.getElementById('stat-upcoming').textContent = data.upcoming_appointments;
+        }
+
+        async function loadPatients() {
+            const res = await fetch(`${API_BASE}/patients`);
+            const patients = await res.json();
+            const list = document.getElementById('patientsList');
+            list.innerHTML = patients.map(p => `
+                <div class="p-4 bg-gray-50 rounded-lg border">
+                    <p class="font-bold">${p.name}</p>
+                    <p class="text-sm text-gray-600">ID: ${p.patient_id}</p>
+                    <p class="text-sm text-gray-600">Email: ${p.email}</p>
+                </div>
+            `).join('');
+        }
+
+        async function loadAppointments() {
+            const res = await fetch(`${API_BASE}/appointments`);
+            const appointments = await res.json();
+            const list = document.getElementById('appointmentsList');
+            list.innerHTML = appointments.map(a => `
+                <div class="p-4 bg-gray-50 rounded-lg border">
+                    <p class="font-bold">Dr. ${a.doctor}</p>
+                    <p class="text-sm text-gray-600">Patient: ${a.patient_id}</p>
+                    <p class="text-sm text-gray-600">Date: ${a.date_time}</p>
+                    <p class="text-sm text-gray-600">Status: <span class="font-semibold text-green-600">${a.status}</span></p>
+                </div>
+            `).join('');
+        }
+
+        async function loadRecords() {
+            const res = await fetch(`${API_BASE}/medical-records`);
+            const records = await res.json();
+            const list = document.getElementById('recordsList');
+            list.innerHTML = records.map(r => `
+                <div class="p-4 bg-gray-50 rounded-lg border">
+                    <p class="font-bold">Patient: ${r.patient_id}</p>
+                    <p class="text-sm text-gray-600">Diagnosis: ${r.diagnosis}</p>
+                    <p class="text-sm text-gray-600">Date: ${r.date}</p>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('patientForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('patientName').value,
+                dob: document.getElementById('patientDOB').value,
+                email: document.getElementById('patientEmail').value,
+                phone: document.getElementById('patientPhone').value
+            };
+            const res = await fetch(`${API_BASE}/patients`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            if (res.ok) {
+                alert('Patient registered successfully!');
+                document.getElementById('patientForm').reset();
+                loadPatients();
+            }
+        });
+
+        document.getElementById('appointmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                patient_id: document.getElementById('aptPatientId').value,
+                doctor: document.getElementById('aptDoctor').value,
+                date_time: document.getElementById('aptDateTime').value,
+                reason: document.getElementById('aptReason').value
+            };
+            const res = await fetch(`${API_BASE}/appointments`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            if (res.ok) {
+                alert('Appointment scheduled successfully!');
+                document.getElementById('appointmentForm').reset();
+                loadAppointments();
+            }
+        });
+
+        document.getElementById('recordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                patient_id: document.getElementById('recordPatientId').value,
+                diagnosis: document.getElementById('recordDiagnosis').value,
+                treatment: document.getElementById('recordTreatment').value,
+                date: document.getElementById('recordDate').value
+            };
+            const res = await fetch(`${API_BASE}/medical-records`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            if (res.ok) {
+                alert('Medical record added successfully!');
+                document.getElementById('recordForm').reset();
+                loadRecords();
+            }
+        });
+
+        showSection('dashboard');
+    </script>
+</body>
+</html>
